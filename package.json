@@ -1,14 +1,29 @@
 {
   "name": "nestjs-test-tooling",
-  "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "version": "0.0.0-development",
+  "keywords": [],
+  "description": "Nest.js test tooling",
+  "author": "TED Vortex <ted.vortex@gmail.com>",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
+  "homepage": "https://github.com/0-vortex/nestjs-test-tooling#readme",
+  "bugs": {
+    "url": "https://github.com/0-vortex/nestjs-test-tooling/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0-vortex/nestjs-test-tooling.git"
+  },
+  "engines": {
+    "node": ">= 20",
+    "npm": ">= 10"
+  },
   "scripts": {
     "preinstall": "npx @tmcb/check-engines",
     "prestart": "npx @tmcb/check-engines",
     "push": "npx @tmcb/conventional-commit",
+    "types:auto-add": "npx typesync",
+    "types:auto-check": "npm run types:auto-add -- --dry",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
@@ -52,7 +67,8 @@
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.3.2"
+    "typescript": "^5.3.2",
+    "typesync": "^0.11.1"
   },
   "jest": {
     "moduleFileExtensions": [
