@@ -1,20 +1,20 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
+import { Logger } from 'nestjs-pino';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import fastifyHelmet from '@fastify/helmet';
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
-  // const app = await NestFactory.create(AppModule);
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter({ logger: false }), {
     bufferLogs: true,
     rawBody: true,
   });
   const configService = app.get(ConfigService);
 
-  // app.useLogger(app.get(Logger));
-  // app.flushLogs();
+  app.useLogger(app.get(Logger));
+  app.flushLogs();
   app.enableCors();
   // app.enableVersioning({
   //   type: VersioningType.URI,

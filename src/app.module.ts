@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import ApiConfig from './config/api.config';
@@ -8,12 +8,37 @@ import { InjectDataSource, TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/t
 import DatabaseLoggerMiddleware from './common/middleware/database-logger.middleware';
 import { DataSource } from 'typeorm';
 import HttpLoggerMiddleware from './common/middleware/http-logger.middleware';
+import { LoggerModule } from 'nestjs-pino';
+import { clc } from '@nestjs/common/utils/cli-colors.util';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       load: [ApiConfig, DbConfig],
       isGlobal: true,
+    }),
+    LoggerModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        pinoHttp: {
+          name: `api`,
+          level: config.get('api.logging'),
+          transport: {
+            target: 'pino-pretty',
+            options: {
+              colorize: true,
+              levelFirst: true,
+              translateTime: 'UTC:hh:MM:ss.l',
+              singleLine: true,
+              messageFormat: `${clc.yellow(`[{context}]`)} ${clc.green(`{msg}`)}`,
+              ignore: 'pid,hostname,context',
+            },
+          },
+          customProps: () => ({ context: 'HTTP' }),
+        },
+        exclude: [{ method: RequestMethod.ALL, path: 'check' }],
+      }),
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
