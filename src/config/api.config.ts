@@ -20,8 +20,8 @@ export const ApiConfig = registerAs(
     development: !process.env.CI,
     memory_heap: Number(parseInt(process.env.MEMORY_HEAP ?? '200', 10) * 1024 * 1024),
     memory_rss: Number(parseInt(process.env.MEMORY_RSS ?? '3000', 10) * 1024 * 1024),
-    disk_percentage: Number(parseFloat(process.env.DISK_PERCENGATE ?? '0.7')),
-    disk_size: Number(parseInt(process.env.DISK_SIZE ?? '100', 10) * 1024 * 1024 * 1024),
+    disk_percentage: Number(parseFloat(process.env.DISK_PERCENTAGE ?? '0.95')),
+    disk_size: Number(parseInt(process.env.DISK_SIZE ?? '1000', 10) * 1024 * 1024 * 1024),
   }),
 );
 

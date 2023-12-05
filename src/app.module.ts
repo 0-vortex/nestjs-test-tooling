@@ -10,6 +10,9 @@ import { DataSource } from 'typeorm';
 import HttpLoggerMiddleware from './common/middleware/http-logger.middleware';
 import { LoggerModule } from 'nestjs-pino';
 import { clc } from '@nestjs/common/utils/cli-colors.util';
+import { TerminusModule } from '@nestjs/terminus';
+import { HealthModule } from './health/health.module';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [
@@ -17,6 +20,8 @@ import { clc } from '@nestjs/common/utils/cli-colors.util';
       load: [ApiConfig, DbConfig],
       isGlobal: true,
     }),
+    HealthModule,
+    HttpModule,
     LoggerModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -40,6 +45,8 @@ import { clc } from '@nestjs/common/utils/cli-colors.util';
         exclude: [{ method: RequestMethod.ALL, path: 'check' }],
       }),
     }),
+    TerminusModule,
+
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       name: 'DbConnection',

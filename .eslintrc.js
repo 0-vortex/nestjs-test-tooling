@@ -33,9 +33,13 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
 
     // @darraghor/nestjs-typed/recommended
+    '@darraghor/nestjs-typed/api-methods-should-be-guarded': 'off',
+    "@darraghor/nestjs-typed/injectable-should-be-provided": "off",
     '@darraghor/nestjs-typed/api-method-should-specify-api-response': 'error',
-    '@darraghor/nestjs-typed/api-methods-should-be-guarded': 'warn',
     '@darraghor/nestjs-typed/sort-module-metadata-arrays': 'error',
+
+    // @typescript-eslint/strict
+    "@typescript-eslint/no-extraneous-class": "off",
   },
   // settings: {
   //   "node": {
