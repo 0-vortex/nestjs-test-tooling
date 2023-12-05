@@ -7,8 +7,6 @@ import fastifyHelmet from '@fastify/helmet';
 import fastifyRateLimit from '@fastify/rate-limit';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { DocumentBuilder, SwaggerCustomOptions, SwaggerModule } from '@nestjs/swagger';
-import { resolve } from 'node:path';
-import { writeFile } from 'node:fs/promises';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter({ logger: false }), {
@@ -79,15 +77,7 @@ code | condition
 
   const customOptions: SwaggerCustomOptions = { swaggerOptions: { persistAuthorization: true } };
 
-  const outputPath = resolve(process.cwd(), 'dist/swagger.json');
-
-  try {
-    await writeFile(outputPath, JSON.stringify(document, null, 2), { encoding: 'utf8' });
-  } catch (e) {
-    console.log(e);
-  }
-
-  SwaggerModule.setup('/', app, document, customOptions);
+  SwaggerModule.setup('swagger', app, document, customOptions);
 
   await app.register(fastifyHelmet, { contentSecurityPolicy: false });
   await app.register(fastifyRateLimit, {
