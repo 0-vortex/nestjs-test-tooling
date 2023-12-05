@@ -1,0 +1,53 @@
+version: "3.9"
+
+networks:
+  backend:
+
+services:
+  postgres:
+    image: "postgres:16-alpine"
+    container_name: "postgres"
+    restart: on-failure
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "postgres"
+      PGDATA: "/data/postgres"
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg-data:/data/postgres
+      - .:/app
+    networks:
+      - backend
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  pgadmin:
+    image: "dpage/pgadmin4:latest"
+    container_name: "pgadmin"
+    restart: on-failure
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "postgres@example"
+      PGADMIN_DEFAULT_PASSWORD: "postgres"
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+      PGADMIN_SERVER_JSON_FILE: "/pgadmin4/servers.json"
+    ports:
+      - "8888:80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+      - ./database/pgpass:/pgadmin4/pgpass
+      - ./database/servers.json:/pgadmin4/servers.json
+    networks:
+      - backend
+    entrypoint: /bin/sh -c "chmod 600 /pgpass; /entrypoint.sh;"
+    user: root
+
+volumes:
+  pg-data:
+    driver: local
+  pgadmin-data:
