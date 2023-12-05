@@ -1,11 +1,13 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import ApiConfig from './config/api.config';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import DbConfig from './config/db.config';
-import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { InjectDataSource, TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import DatabaseLoggerMiddleware from './common/middleware/database-logger.middleware';
+import { DataSource } from 'typeorm';
+import HttpLoggerMiddleware from './common/middleware/http-logger.middleware';
 
 @Module({
   imports: [
@@ -15,7 +17,7 @@ import DatabaseLoggerMiddleware from './common/middleware/database-logger.middle
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      name: 'ApiConnection',
+      name: 'DbConnection',
       useFactory: (configService: ConfigService) =>
         ({
           parseInt8: true,
@@ -37,4 +39,13 @@ import DatabaseLoggerMiddleware from './common/middleware/database-logger.middle
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(
+    @InjectDataSource('DbConnection')
+    private readonly dbConnection: DataSource,
+  ) {}
+
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(HttpLoggerMiddleware).forRoutes('*');
+  }
+}
