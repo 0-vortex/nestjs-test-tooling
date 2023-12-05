@@ -33,6 +33,7 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: "postgres@example"
       PGADMIN_DEFAULT_PASSWORD: "postgres"
+      PGADMIN_DISABLE_POSTFIX: "True"
       PGADMIN_CONFIG_SERVER_MODE: "False"
       PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
       PGADMIN_SERVER_JSON_FILE: "/pgadmin4/servers.json"
@@ -45,7 +46,13 @@ services:
     networks:
       - backend
     entrypoint: /bin/sh -c "chmod 600 /pgpass; /entrypoint.sh;"
-    user: root
+
+  pgexplainer:
+    image: "netcorext/pev2:latest"
+    container_name: "pgexplainer"
+    restart: on-failure
+    ports:
+      - "8889:80"
 
 volumes:
   pg-data:
