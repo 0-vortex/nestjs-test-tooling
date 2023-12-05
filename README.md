@@ -28,6 +28,7 @@
 - @darraghor/eslint-plugin-nestjs-typed
 - @tmcb/check-engines
 - @tmcb/conventional-commit
+- typesync
 
 ## CI/CD
 

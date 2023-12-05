@@ -1,7 +1,7 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: 'tsconfig.json',
+    project: './tsconfig.json',
     tsconfigRootDir: __dirname,
     sourceType: 'module',
   },
@@ -18,12 +18,14 @@ module.exports = {
   ],
   root: true,
   env: {
-    node: true,
-    jest: true,
+    "node": true,
+    "jest": true,
     "es2021": true
   },
   ignorePatterns: [
-    "public",
+    'test',
+    'dist',
+    'public',
     '.eslintrc.js'
   ],
   rules: {
@@ -34,37 +36,37 @@ module.exports = {
 
     // @darraghor/nestjs-typed/recommended
     '@darraghor/nestjs-typed/api-methods-should-be-guarded': 'off',
-    "@darraghor/nestjs-typed/injectable-should-be-provided": "off",
+    '@darraghor/nestjs-typed/injectable-should-be-provided': 'off',
     '@darraghor/nestjs-typed/api-method-should-specify-api-response': 'error',
     '@darraghor/nestjs-typed/sort-module-metadata-arrays': 'error',
 
     // @typescript-eslint/strict
-    "@typescript-eslint/no-extraneous-class": "off",
+    '@typescript-eslint/no-extraneous-class': 'off',
   },
-  // settings: {
-  //   "node": {
-  //     "allowModules": ["express"],
-  //   },
-  //   "import/resolver": {
-  //     "node": {
-  //       "extensions": [
-  //         ".js",
-  //         ".ts",
-  //       ],
-  //       "paths": [
-  //         "src"
-  //       ]
-  //     }
-  //   },
-  //   "import/extensions": [
-  //     ".js",
-  //     ".ts",
-  //   ],
-  //   "import/parsers": {
-  //     "@typescript-eslint/parser": [
-  //       ".js",
-  //       ".ts",
-  //     ]
-  //   }
-  // },
+  settings: {
+    "node": {
+      "allowModules": ["express"],
+    },
+    "import/resolver": {
+      "node": {
+        "extensions": [
+          ".js",
+          ".ts",
+        ],
+        "paths": [
+          "src"
+        ]
+      }
+    },
+    "import/extensions": [
+      ".js",
+      ".ts",
+    ],
+    "import/parsers": {
+      "@typescript-eslint/parser": [
+        ".js",
+        ".ts",
+      ]
+    }
+  },
 };
