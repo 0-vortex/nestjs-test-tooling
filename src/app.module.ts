@@ -1,6 +1,4 @@
 import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import ApiConfig from './config/api.config';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import DbConfig from './config/db.config';
@@ -13,6 +11,7 @@ import { clc } from '@nestjs/common/utils/cli-colors.util';
 import { TerminusModule } from '@nestjs/terminus';
 import { HealthModule } from './health/health.module';
 import { HttpModule } from '@nestjs/axios';
+import { HelloModule } from './hello/hello.module';
 
 @Module({
   imports: [
@@ -21,6 +20,7 @@ import { HttpModule } from '@nestjs/axios';
       isGlobal: true,
     }),
     HealthModule,
+    HelloModule,
     HttpModule,
     LoggerModule.forRootAsync({
       imports: [ConfigModule],
@@ -68,8 +68,8 @@ import { HttpModule } from '@nestjs/axios';
       inject: [ConfigService],
     }),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {
   constructor(
