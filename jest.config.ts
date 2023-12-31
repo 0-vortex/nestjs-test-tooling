@@ -11,7 +11,17 @@ const config: Config = {
     '^.+\\.(t|j)s$': 'ts-jest',
   },
   collectCoverageFrom: ['**/*.(t|j)s'],
+  coveragePathIgnorePatterns: ['.module.ts$', 'main.ts'],
   coverageDirectory: '../coverage',
+  coverageThreshold: {
+    global: {
+      statements: 80,
+      branches: 80,
+      functions: 80,
+      lines: 80,
+    },
+  },
+  coverageReporters: [['text', { skipFull: true }], 'text-summary', 'clover', 'html'],
 };
 
 export default config;
