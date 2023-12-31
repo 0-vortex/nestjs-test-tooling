@@ -1,6 +1,6 @@
 {
   "name": "nestjs-test-tooling",
-  "version": "0.0.0-development",
+  "version": "1.0.0",
   "keywords": [],
   "description": "Nest.js test tooling",
   "author": "TED Vortex <ted.vortex@gmail.com>",
